@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map with Key Locations</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        /* Make the map responsive */
+        #map {
+            width: 100%;
+            height: 100vh;
+            /* Full height of the viewport */
+        }
+
+        /* Add some basic styling to ensure the body takes full height */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Map with Key Locations</h1>
+    <div id="map"></div>
+
+    <script>
+        // Initialize the map
+        const map = L.map('map').setView([34.0522, -118.2437], 8);
+
+        // Add a tile layer with Traditional Chinese (CartoDB) style map
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Custom icon
+        const customIcon = L.icon({
+            iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+        });
+
+        // Add locations with images
+        const locations = [
+            { coords: [33.9416, -118.4085], name: "洛杉磯國際機場", imageUrl: "https://th.bing.com/th/id/OIP.scGzg7SiIYNw7IaODv5ylgAAAA?rs=1&pid=ImgDetMain" },
+            { coords: [34.0195, -118.4912], name: "聖塔莫尼卡", imageUrl: "https://pic.pimg.tw/anrine910070/1593940689-4088225713-g.jpg" },
+            { coords: [34.1016, -118.3269], name: "好萊塢星光大道", imageUrl: "https://www.settour.com.tw/ss_img/poi/20210602/495aec2f-5bb7-4008-9e70-39ac5e550c06.jpg" },
+            { coords: [34.1381, -118.3534], name: "環球影城好萊塢", imageUrl: "https://th.bing.com/th/id/OIP.TKpOeFOM2pMdLTNDbP7yWAHaE8?rs=1&pid=ImgDetMain" },
+            { coords: [34.1184, -118.3004], name: "格里菲斯天文台", imageUrl: "https://img.meilvtong.com/dataHouse2/US/month_2_2108/21083109249dc8db9c062e0908.jpeg" },
+            { coords: [33.9584, -118.3416], name: "克里波場 (快艇競技場)", imageUrl: "https://media.zenfs.com/vi/nownews.com/d0f08c2cfe2c31c9ff73098cb004c822" },
+            { coords: [34.0739, -118.2400], name: "道奇體育場", imageUrl: "https://png.pngtree.com/background/20230610/original/pngtree-fish-eye-view-of-the-los-angeles-dodgers-stadium-picture-image_3109821.jpg" },
+            { coords: [33.8121, -117.9190], name: "迪士尼樂園", imageUrl: "https://th.bing.com/th/id/R.90d65362af497457e72c72b9c93bcf8e?rik=WubevOZGAr5moA&riu=http%3a%2f%2f5b0988e595225.cdn.sohucs.com%2fimages%2f20190723%2f4be1b708709d4b5f90cd1116b6c548f2.jpeg&ehk=RNpDqdg8vy5zBVq3ET7FgSZdK9iu20Zon5tXTAMesEc%3d&risl=&pid=ImgRaw&r=0" },
+            { coords: [36.1699, -115.1398], name: "拉斯維加斯", imageUrl: "https://th.bing.com/th/id/OIP.i4BkHZeZcahriPAo1X5lpAHaEo?rs=1&pid=ImgDetMain" },
+            { coords: [36.1156, -115.1537], name: "MSG Sphere 拉斯維加斯", imageUrl: "https://nypost.com/wp-content/uploads/sites/2/2023/07/NYPICHPDPICT000013609997.jpg" },
+            { coords: [36.1069, -112.1129], name: "大峽谷國家公園", imageUrl: "https://th.bing.com/th/id/OIP.g64P7UP_lozvZ8hk9E8ZxAHaE7?rs=1&pid=ImgDetMain" },
+            { coords: [36.8619, -111.3743], name: "羚羊峽谷", imageUrl: "https://cdn01.dcfever.com/media/travel/poi/2018/01/13742_poi_banner_1516765836.jpg" },
+            { coords: [36.1126, -115.1766], name: "太陽馬戲團O秀（貝拉吉奧酒店）", imageUrl: "https://www.ifunvegas.com/wp-content/uploads/2022/09/O-Show-Hoops-Performance.jpg" }
+        ];
+
+        // Add markers to the map with an image in the popup
+        locations.forEach(location => {
+            const marker = L.marker(location.coords, { icon: customIcon }).addTo(map);
+            const popupContent = `
+                <div>
+                    <a href="${location.url || '#'}" target="_blank">${location.name}</a><br>
+                    <img src="${location.imageUrl}" alt="${location.name}" style="width: 100%; height: auto;"/>
+                </div>
+            `;
+            marker.bindPopup(popupContent);
+        });
+    </script>
+</body>
+
+</html>
